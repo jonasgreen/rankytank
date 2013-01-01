@@ -17,7 +17,9 @@ public class PlayerSuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay
     public PlayerSuggestionDisplay(String[] nonSuggestions) {
         this.nonSuggestions = nonSuggestions;
         getPopupPanel().setStyleName("playerSuggestionDisplay");
-        getPopupPanel().setWidth("300px");
+        getPopupPanel().setWidth("310px");
+        getPopupPanel().setHeight("20px");
+
     }
 
     @Override

@@ -17,39 +17,41 @@ import java.util.List;
  */
 public class TeamUI extends FlowPanel implements Navigator {
 
-    private String[] suggestionStartTexts = new String[]{"Enter players name", "Add any teammates", "Add another teammate"};
+    private String[] suggestionStartTexts;
     private List<ChosenPlayer> chosenPlayerUIs = new ArrayList<ChosenPlayer>();
     private FlowPanel chosenPlayersPanel = new FlowPanel();
 
+    private AddResultPopUp parent;
     private MultiWordSuggestOracle oracle;
     private PlayerSuggetsBox suggestBox;
 
+    private String teamColor;
 
-    public TeamUI(MultiWordSuggestOracle or) {
+    public TeamUI(AddResultPopUp parent, MultiWordSuggestOracle or, String[] defaultTexts, String teamColor) {
+        this.teamColor = teamColor;
+        this.parent = parent;
         this.oracle = or;
+        this.suggestionStartTexts = defaultTexts;
         setStyleName("teamUI");
-        add(chosenPlayersPanel);
-        chosenPlayersPanel.getElement().getStyle().setMarginBottom(10, Style.Unit.PX);
         add(getSuggestBox());
+        getSuggestBox().getElement().getStyle().setMarginBottom(10, Style.Unit.PX);
+        add(chosenPlayersPanel);
     }
 
     public PlayerSuggetsBox getSuggestBox() {
         if (suggestBox == null) {
             suggestBox = new PlayerSuggetsBox(oracle, suggestionStartTexts);
             suggestBox.getValueBox().setText(suggestionStartTexts[0]);
-
             suggestBox.addKeyDownHandler(new KeyDownHandler() {
                 public void onKeyDown(KeyDownEvent event) {
                     keyDownInSuggestBox(event);
                 }
             });
-
             suggestBox.addKeyUpHandler(new KeyUpHandler() {
                 public void onKeyUp(KeyUpEvent event) {
                     keyUpInSuggestBox(event);
                 }
             });
-
             suggestBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
                 public void onSelection(SelectionEvent<SuggestOracle.Suggestion> event) {
                     playerSelected(event.getSelectedItem().getReplacementString());
@@ -61,13 +63,11 @@ public class TeamUI extends FlowPanel implements Navigator {
                     handleFocus();
                 }
             });
-
             suggestBox.getValueBox().addBlurHandler(new BlurHandler() {
                 public void onBlur(BlurEvent event) {
                     handleBlur();
                 }
             });
-
         }
         return suggestBox;
     }
@@ -159,6 +159,7 @@ public class TeamUI extends FlowPanel implements Navigator {
         chosenPlayerUIs.add(playerUI);
         getSuggestBox().getValueBox().setText("");
         styleSuggestionBox();
+        parent.relayoutButtonPanel();
     }
 
     public void delete(ChosenPlayer w) {
@@ -166,6 +167,11 @@ public class TeamUI extends FlowPanel implements Navigator {
         chosenPlayerUIs.remove(w);
         w.removeFromParent();
         getSuggestBox().getValueBox().setFocus(true);
+        parent.relayoutButtonPanel();
 
+    }
+
+    public String getTeamColor() {
+        return teamColor;
     }
 }

@@ -19,7 +19,6 @@ public class ChosenPlayer extends FlowPanel{
         add(label);
         label.setStyleName("chosenPlayerLabel");
 
-
         add(getDeletePanel());
         setStyleName("chosenPlayer");
         addDomHandler(new MouseOverHandler() {
@@ -35,6 +34,9 @@ public class ChosenPlayer extends FlowPanel{
         }, MouseOutEvent.getType());
 
         getElement().getStyle().setClear(Style.Clear.BOTH);
+
+        label.getElement().getStyle().setColor(parent.getTeamColor());
+
     }
 
     private void handleMouseOut() {
@@ -49,9 +51,8 @@ public class ChosenPlayer extends FlowPanel{
         if (deletePanel == null) {
             deletePanel = new FlowPanel();
             final Label l = new Label("x");
-            l.getElement().getStyle().setPaddingTop(3, Style.Unit.PX);
-            l.getElement().getStyle().setPaddingLeft(10, Style.Unit.PX);
-            l.getElement().getStyle().setPaddingRight(10, Style.Unit.PX);
+            l.getElement().getStyle().setPaddingTop(5, Style.Unit.PX);
+            l.getElement().getStyle().setPaddingRight(20, Style.Unit.PX);
             l.getElement().getStyle().setFontSize(10, Style.Unit.PX);
             l.getElement().getStyle().setColor("rgb(171,171,171)");
             l.setTitle("Delete");
@@ -77,7 +78,7 @@ public class ChosenPlayer extends FlowPanel{
 
             deletePanel.add(l);
             deletePanel.getElement().getStyle().setFloat(Style.Float.RIGHT);
-            deletePanel.setWidth("26px");
+            deletePanel.setWidth("20px");
 
         }
         return deletePanel;

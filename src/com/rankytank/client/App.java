@@ -1,10 +1,12 @@
 package com.rankytank.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.*;
+import com.rankytank.client.gui.AddResultPopUp;
 import com.rankytank.client.gui.ChosenPlayer;
 import com.rankytank.client.gui.PlayerSuggetsBox;
 import com.rankytank.client.gui.TeamUI;
@@ -15,7 +17,7 @@ public class App implements EntryPoint {
     public void onModuleLoad() {
         FlowPanel p = new FlowPanel();
 
-        MultiWordSuggestOracle or = new MultiWordSuggestOracle();
+        final MultiWordSuggestOracle or = new MultiWordSuggestOracle();
         or.add("Jonas Green");
         or.add("Anders Matthesen");
         or.add("Jonas Andersen");
@@ -23,11 +25,26 @@ public class App implements EntryPoint {
         or.add("Jonas John");
         or.add("Jon Green");
 
-        TeamUI ui = new TeamUI(or);
 
-        p.add(ui);
+        //p.add(ui);
         RootLayoutPanel.get().add(p);
-        ui.getSuggestBox().setFocus(true);
+
+        Button b = new Button("Add result");
+        b.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                AddResultPopUp pop = new AddResultPopUp(or);
+                pop.show();
+            }
+        });
+
+        p.add(b);
+        b.setStyleName("colorbutton3");
+        b.getElement().getStyle().setMargin(100, Style.Unit.PX);
+
+
+    }
+
+    private void doShowMatch() {
 
     }
 
