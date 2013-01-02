@@ -76,7 +76,7 @@ public class AddResultPopUp extends PopupUI {
             setEditor = new SetEditorUI();
             setEditor.getTextBox().setWidth("650px");
             setEditor.getTextBox().getElement().getStyle().setMargin(10, Style.Unit.PX);
-            setEditor.getTextBox().getElement().getStyle().setColor("rgb(51,51,51)");
+            setEditor.getTextBox().getElement().getStyle().setColor("rgb(201,201,201)");
             setEditor.addListener(new SetEditorListener() {
                 public void onChange(SetEditorEvent event) {
                     System.out.println("onChange state: "+event.getNewState());
