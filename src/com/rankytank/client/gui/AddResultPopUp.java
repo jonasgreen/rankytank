@@ -79,34 +79,33 @@ public class AddResultPopUp extends PopupUI {
             setEditor.getTextBox().getElement().getStyle().setColor("rgb(51,51,51)");
             setEditor.addListener(new SetEditorListener() {
                 public void onChange(SetEditorEvent event) {
-                    editorEvent(event);
+                    System.out.println("onChange state: "+event.getNewState());
+                    handleState(event.getNewState());
                 }
             });
         }
         return setEditor;
     }
 
-    private void editorEvent(SetEditorListener.SetEditorEvent event) {
-        styleTeams();
-        /*if (event.getNewState() == SetEditorState.State.unknown) {
-            matchIsUnknown();
+    private void handleState(SetEditorState.State state){
+        if (state == SetEditorState.State.unknown) {
+            styleNormal();
         }
-        else if (event.getNewState() == SetEditorState.State.draw) {
-            matchIsDraw();
+        else if (state == SetEditorState.State.draw) {
+            styleNormal();
         }
-        else if (event.getNewState() == SetEditorState.State.outIsWinning) {
-            matchOutIsWinning();
+        else if (state == SetEditorState.State.outIsWinning) {
+            styleOutIsWinning();
         }
-        else if (event.getNewState() == SetEditorState.State.homeIsWinning) {
-            matchHomeIsWinning();
+        else if (state == SetEditorState.State.homeIsWinning) {
+            styleHomeIsWinning();
         }
-        else if(event.getNewState() == SetEditorState.State.reset){
-            matchIsReset();
+        else if(state == SetEditorState.State.reset){
+            styleNormal();
         }
         else {
-            matchIsIllegal();
+            styleNormal();
         }
-        */
     }
 
 
@@ -117,108 +116,40 @@ public class AddResultPopUp extends PopupUI {
     public void reset() {
     }
 
-
-    public void matchHomeIsWinning() {
-        reset();
-        //StyleIt.add(getTeamNameOut(), playersLooseLayout);
-
-        //getSaveButton().getButton().setEnabled(true);
-        //getErrorMessage().setText("");
-        //StyleIt.add(getErrorMessage(), new TextLayout().colorBaseDark());
-
-    }
-
-
-    public void matchIsReset() {
-        reset();
-       // getSaveButton().getButton().setEnabled(true);
-    }
-
-
-    public void matchOutIsWinning() {
-        reset();
-        //StyleIt.add(getTeamNameHome(), playersLooseLayout);
-        //getSaveButton().getButton().setEnabled(true);
-
-        //getErrorMessage().setText("");
-        //StyleIt.add(getErrorMessage(), new TextLayout().colorBaseDark());
-    }
-
-    public void matchIsUnknown() {
-        reset();
-        //stateErrorMessage = "Scoresheet indicates a non finished match";
-    }
-
-    public void matchIsDraw() {
-        reset();
-        /*if (drawAllowed) {
-            //ok - ignore
-        }
-        else {
-            stateErrorMessage = "Draw is not allowed";
-            getErrorMessage().setText(stateErrorMessage);
-            getSaveButton().getButton().setEnabled(false);
-        }
-        */
-    }
-
-    public void matchIsIllegal() {
-        reset();
-      /*  getSaveButton().getButton().setEnabled(false);
-
-        StyleIt.add(setEditor, illegalLayout);
-        stateErrorMessage = "Scoresheet is illegal";
-        getErrorMessage().setText(stateErrorMessage);
-        */
-    }
-
-
-
-
-
-
-
     @Override
     public void show(){
         super.show();
         getTeamHome().getSuggestBox().setFocus(true);
         style();
-
     }
 
     public void style(){
         layoutButtonPanel();
-        styleTeams();
+         handleState(getSetEditor().getState());
     }
 
-    private void styleTeams() {
-        Result result = getSetEditor().getResult();
-        if(result == null){
-            styleNormal();
-        }
-        else if(result.homeIsWinning()){
-            getTeamHome().styleWon();
-            getTeamOut().styleLost();
-            styleOkButtonWon(getTeamHome().getTeamColor());
-        }
-        else if(result.outIsWinning()){
-            getTeamHome().styleLost();
-            getTeamOut().styleWon();
-            styleOkButtonWon(getTeamOut().getTeamColor());
-        }
-        else {
-            styleNormal();
-        }
+    private void styleOutIsWinning() {
+        getTeamHome().styleLost();
+        getTeamOut().styleWon();
+        styleOkButtonWon(getTeamOut().getTeamColor());
     }
 
-    private void styleOkButtonWon(String backgroundColor){
-        getOkButton().getElement().getStyle().setColor(backgroundColor);
+    private void styleHomeIsWinning() {
+        getTeamHome().styleWon();
+        getTeamOut().styleLost();
+        styleOkButtonWon(getTeamHome().getTeamColor());
+    }
+
+    private void styleOkButtonWon(String color){
+        getOkButton().setStyleName("colorbutton3");
+        getOkButton().getElement().getStyle().setColor(color);
     }
 
     private void styleNormal(){
         getTeamHome().styleNormal();
         getTeamOut().styleNormal();
         getOkButton().setStyleName("colorbutton4");
+        getOkButton().getElement().getStyle().setColor("#333333");
     }
 
     private void layoutButtonPanel() {

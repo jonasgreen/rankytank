@@ -38,6 +38,7 @@ public class TeamUI extends FlowPanel implements Navigator {
         add(getSuggestBox());
         getSuggestBox().getElement().getStyle().setMarginBottom(10, Style.Unit.PX);
         add(chosenPlayersPanel);
+        chosenPlayersPanel.setStyleName("chosenPlayerPanel");
     }
 
     public PlayerSuggetsBox getSuggestBox() {
@@ -176,11 +177,7 @@ public class TeamUI extends FlowPanel implements Navigator {
         return teamColor;
     }
 
-    public void styleNormal(ChosenPlayer p){
-        Style style = p.getElement().getStyle();
-        style.setColor(teamColor);
-        style.setFontWeight(Style.FontWeight.NORMAL);
-    }
+
 
     public void styleWon(){
         for (ChosenPlayer p : chosenPlayerUIs) {
@@ -201,16 +198,23 @@ public class TeamUI extends FlowPanel implements Navigator {
         }
     }
 
+    public void styleNormal(ChosenPlayer p){
+        Style style = p.getLabel().getElement().getStyle();
+        style.setColor(getTeamColor());
+        chosenPlayersPanel.getElement().getStyle().setBackgroundColor("rgb(231,231,231)");
+    }
+
     public void styleWon(ChosenPlayer p){
         Style style = p.getLabel().getElement().getStyle();
-        style.setColor(teamColor);
-        style.setFontWeight(Style.FontWeight.BOLD);
+        style.setColor(getTeamColor());
+        chosenPlayersPanel.getElement().getStyle().setBackgroundColor("#ffb200");
+
     }
 
     public void styleLost(ChosenPlayer p){
         Style style = p.getLabel().getElement().getStyle();
         style.setColor("grey");
-        style.setFontWeight(Style.FontWeight.NORMAL);
+        chosenPlayersPanel.getElement().getStyle().setBackgroundColor("rgb(231,231,231)");
     }
 
 }
