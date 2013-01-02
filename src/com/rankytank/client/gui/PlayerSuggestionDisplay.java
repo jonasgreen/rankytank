@@ -14,9 +14,15 @@ public class PlayerSuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay
 
     private String[] nonSuggestions;
 
-    public PlayerSuggestionDisplay(String[] nonSuggestions) {
+
+    public PlayerSuggestionDisplay(String[] nonSuggestions, boolean homeTeam) {
         this.nonSuggestions = nonSuggestions;
-        getPopupPanel().setStyleName("playerSuggestionDisplay");
+        if (homeTeam) {
+            getPopupPanel().setStyleName("playerSuggestionDisplayHome");
+        }
+        else {
+            getPopupPanel().setStyleName("playerSuggestionDisplayOut");
+        }
         getPopupPanel().setWidth("310px");
         getPopupPanel().setHeight("20px");
 
@@ -29,15 +35,15 @@ public class PlayerSuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay
                                    final SuggestBox.SuggestionCallback callback) {
 
         final String name = suggestBox.getText();
-        if(isNonSuggestion(name)){
+        if (isNonSuggestion(name)) {
             return;
         }
-        if(isContainedInSuggestions(suggestions, name) || isEmpty(name)){
+        if (isContainedInSuggestions(suggestions, name) || isEmpty(name)) {
             super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
             return;
         }
 
-        final String createString = "Add <strong>\""+name+"\"</strong> to ranking list";
+        final String createString = "Add <strong>\"" + name + "\"</strong> to ranking list";
         List<SuggestOracle.Suggestion> l = new ArrayList<SuggestOracle.Suggestion>(suggestions);
 
         SuggestOracle.Suggestion s = new SuggestOracle.Suggestion() {
@@ -56,7 +62,7 @@ public class PlayerSuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay
 
     private boolean isNonSuggestion(String name) {
         for (String nonSuggestion : nonSuggestions) {
-            if(nonSuggestion.equals(name)){
+            if (nonSuggestion.equals(name)) {
                 return true;
             }
         }
@@ -67,9 +73,9 @@ public class PlayerSuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay
         return name == null || name.trim().equals("");
     }
 
-    private boolean isContainedInSuggestions(Collection<? extends SuggestOracle.Suggestion> suggestions, String name){
+    private boolean isContainedInSuggestions(Collection<? extends SuggestOracle.Suggestion> suggestions, String name) {
         for (SuggestOracle.Suggestion s : suggestions) {
-            if(s.getReplacementString().equalsIgnoreCase(name)){
+            if (s.getReplacementString().equalsIgnoreCase(name)) {
                 return true;
             }
         }

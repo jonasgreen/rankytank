@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.jg.core.client.model.Result;
 import com.jg.core.client.model.SetEditorListener;
 import com.jg.core.client.model.SetEditorState;
 import com.jg.core.client.style.Name;
@@ -76,12 +77,18 @@ public class AddResultPopUp extends PopupUI {
             setEditor.getTextBox().setWidth("650px");
             setEditor.getTextBox().getElement().getStyle().setMargin(10, Style.Unit.PX);
             setEditor.getTextBox().getElement().getStyle().setColor("rgb(51,51,51)");
+            setEditor.addListener(new SetEditorListener() {
+                public void onChange(SetEditorEvent event) {
+                    editorEvent(event);
+                }
+            });
         }
         return setEditor;
     }
 
     private void editorEvent(SetEditorListener.SetEditorEvent event) {
-        if (event.getNewState() == SetEditorState.State.unknown) {
+        styleTeams();
+        /*if (event.getNewState() == SetEditorState.State.unknown) {
             matchIsUnknown();
         }
         else if (event.getNewState() == SetEditorState.State.draw) {
@@ -99,6 +106,7 @@ public class AddResultPopUp extends PopupUI {
         else {
             matchIsIllegal();
         }
+        */
     }
 
 
@@ -107,13 +115,6 @@ public class AddResultPopUp extends PopupUI {
     }
 
     public void reset() {
-        //stateErrorMessage = "";
-        //getErrorMessage().setText(stateErrorMessage);
-
-        //getSaveButton().getButton().setEnabled(false);
-        StyleIt.add(getSetEditor(), Name.BORDER, "NONE");
-        //StyleIt.add(getErrorMessage(), new TextLayout().bold().add(Color.textCompl()));
-
     }
 
 
@@ -181,11 +182,46 @@ public class AddResultPopUp extends PopupUI {
     public void show(){
         super.show();
         getTeamHome().getSuggestBox().setFocus(true);
-        relayoutButtonPanel();
+        style();
 
     }
 
-    public void relayoutButtonPanel(){
+    public void style(){
+        layoutButtonPanel();
+        styleTeams();
+    }
+
+    private void styleTeams() {
+        Result result = getSetEditor().getResult();
+        if(result == null){
+            styleNormal();
+        }
+        else if(result.homeIsWinning()){
+            getTeamHome().styleWon();
+            getTeamOut().styleLost();
+            styleOkButtonWon(getTeamHome().getTeamColor());
+        }
+        else if(result.outIsWinning()){
+            getTeamHome().styleLost();
+            getTeamOut().styleWon();
+            styleOkButtonWon(getTeamOut().getTeamColor());
+        }
+        else {
+            styleNormal();
+        }
+    }
+
+    private void styleOkButtonWon(String backgroundColor){
+        getOkButton().getElement().getStyle().setColor(backgroundColor);
+    }
+
+    private void styleNormal(){
+        getTeamHome().styleNormal();
+        getTeamOut().styleNormal();
+        getOkButton().setStyleName("colorbutton4");
+    }
+
+    private void layoutButtonPanel() {
         int top = getElement().getAbsoluteTop();
         int clientHeight = getElement().getClientHeight();
         int left = getElement().getAbsoluteLeft();
@@ -193,14 +229,11 @@ public class AddResultPopUp extends PopupUI {
 
         getButtonPanel().getElement().getStyle().setTop(top + clientHeight + 15, Style.Unit.PX);
         getButtonPanel().getElement().getStyle().setLeft(left + width - getButtonPanel().getElement().getClientWidth()+2, Style.Unit.PX);
-
-
-
     }
 
     public TeamUI getTeamHome() {
         if (teamHome == null) {
-            teamHome = new TeamUI(this, oracle, new String[]{"Enter players name", "Add any teammates", "Add another teammate"}, "green");
+            teamHome = new TeamUI(this, oracle, new String[]{"Enter players name", "Add any teammates", "Add another teammate"}, true);
             teamHome.getElement().getStyle().setFloat(Style.Float.LEFT);
             //teamHome.getElement().getStyle().setProperty("borderRight", "1px solid grey");
             teamHome.getElement().getStyle().setBackgroundColor("rgb(231,231,231)");
@@ -211,10 +244,9 @@ public class AddResultPopUp extends PopupUI {
 
     public TeamUI getTeamOut() {
         if (teamOut == null) {
-            teamOut = new TeamUI(this, oracle, new String[]{"Enter opponents name", "Add any opponent teammates", "Add another opponent teammate"}, "blue");
+            teamOut = new TeamUI(this, oracle, new String[]{"Enter opponents name", "Add any opponent teammates", "Add another opponent teammate"}, false);
             teamOut.getElement().getStyle().setFloat(Style.Float.RIGHT);
             teamOut.getElement().getStyle().setBackgroundColor("rgb(231,231,231)");
-
         }
         return teamOut;
     }

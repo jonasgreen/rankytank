@@ -12,12 +12,12 @@ public class ChosenPlayer extends FlowPanel{
     private Label label;
     private FlowPanel deletePanel;
     private TeamUI teamUi;
+    private String playerName;
 
     public ChosenPlayer(String playerName, TeamUI parent) {
         this.teamUi = parent;
-        label = new Label(playerName);
-        add(label);
-        label.setStyleName("chosenPlayerLabel");
+        this.playerName = playerName;
+        add(getLabel());
 
         add(getDeletePanel());
         setStyleName("chosenPlayer");
@@ -37,6 +37,14 @@ public class ChosenPlayer extends FlowPanel{
 
         label.getElement().getStyle().setColor(parent.getTeamColor());
 
+    }
+
+    public Label getLabel() {
+        if (label == null) {
+            label = new Label(playerName);
+            label.setStyleName("chosenPlayerLabel");
+        }
+        return label;
     }
 
     private void handleMouseOut() {

@@ -34,7 +34,7 @@
         float: left;
 }
 
-.playerSuggestionDisplay {
+.playerSuggestionDisplayHome {
     font-family: klavika;
     background-color:white;
     width: 310px;
@@ -48,7 +48,7 @@
 
 }
 
-.playerSuggestionDisplay .item {
+.playerSuggestionDisplayHome .item {
     font-family: font-family: klavika;;
     font-size: 14px;
     height:16px;
@@ -59,7 +59,7 @@
     width: 310px;
 }
 
-.playerSuggestionDisplay .item-selected {
+.playerSuggestionDisplayHome .item-selected {
     /**background-color:#FFb200;
     */
     font-family: klavika;
@@ -70,6 +70,46 @@
     width: 328px;
     color: white;
 }
+
+
+.playerSuggestionDisplayOut {
+    font-family: klavika;
+    background-color:white;
+    width: 310px;
+    padding-left: 0px;
+    padding-right: 0px;
+    color: white;
+    border-bottom: solid 1px #466c3a;
+    border-top: solid 1px #466c3a;
+    border-left: solid 1px #466c3a;
+    border-right: solid 1px #466c3a;
+
+}
+
+.playerSuggestionDisplayOut .item {
+    font-family: font-family: klavika;;
+    font-size: 14px;
+    height:16px;
+    padding-top: 4px;
+    padding-left:6px;
+    color: grey;
+    background-color: white;
+    width: 310px;
+}
+
+.playerSuggestionDisplayOut .item-selected {
+    /**background-color:#FFb200;
+    */
+    font-family: klavika;
+        font-size: 14px;
+    padding-top:4px;
+    padding-left:6px;
+    background-color: blue;
+    width: 328px;
+    color: white;
+}
+
+
 
 h1 {
   font-size: 2em;

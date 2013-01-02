@@ -17,8 +17,8 @@ import java.util.Collection;
  */
 public class PlayerSuggetsBox extends SuggestBox{
 
-    public PlayerSuggetsBox(SuggestOracle or, String[] nonSuggestions) {
-        super(or, new PlayerTextBox(), new PlayerSuggestionDisplay(nonSuggestions));
+    public PlayerSuggetsBox(SuggestOracle or, String[] nonSuggestions, boolean homeTeam) {
+        super(or, new PlayerTextBox(), new PlayerSuggestionDisplay(nonSuggestions, homeTeam));
     }
 
 

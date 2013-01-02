@@ -26,9 +26,11 @@ public class TeamUI extends FlowPanel implements Navigator {
     private PlayerSuggetsBox suggestBox;
 
     private String teamColor;
+    private boolean homeTeam;
 
-    public TeamUI(AddResultPopUp parent, MultiWordSuggestOracle or, String[] defaultTexts, String teamColor) {
-        this.teamColor = teamColor;
+    public TeamUI(AddResultPopUp parent, MultiWordSuggestOracle or, String[] defaultTexts, boolean homeTeam) {
+        this.teamColor = homeTeam ? Colors.GREEN : Colors.BLUE;
+        this.homeTeam = homeTeam;
         this.parent = parent;
         this.oracle = or;
         this.suggestionStartTexts = defaultTexts;
@@ -40,7 +42,7 @@ public class TeamUI extends FlowPanel implements Navigator {
 
     public PlayerSuggetsBox getSuggestBox() {
         if (suggestBox == null) {
-            suggestBox = new PlayerSuggetsBox(oracle, suggestionStartTexts);
+            suggestBox = new PlayerSuggetsBox(oracle, suggestionStartTexts, homeTeam);
             suggestBox.getValueBox().setText(suggestionStartTexts[0]);
             suggestBox.addKeyDownHandler(new KeyDownHandler() {
                 public void onKeyDown(KeyDownEvent event) {
@@ -159,7 +161,7 @@ public class TeamUI extends FlowPanel implements Navigator {
         chosenPlayerUIs.add(playerUI);
         getSuggestBox().getValueBox().setText("");
         styleSuggestionBox();
-        parent.relayoutButtonPanel();
+        parent.style();
     }
 
     public void delete(ChosenPlayer w) {
@@ -167,11 +169,48 @@ public class TeamUI extends FlowPanel implements Navigator {
         chosenPlayerUIs.remove(w);
         w.removeFromParent();
         getSuggestBox().getValueBox().setFocus(true);
-        parent.relayoutButtonPanel();
-
+        parent.style();
     }
 
     public String getTeamColor() {
         return teamColor;
     }
+
+    public void styleNormal(ChosenPlayer p){
+        Style style = p.getElement().getStyle();
+        style.setColor(teamColor);
+        style.setFontWeight(Style.FontWeight.NORMAL);
+    }
+
+    public void styleWon(){
+        for (ChosenPlayer p : chosenPlayerUIs) {
+            styleWon(p);
+        }
+    }
+
+    public void styleLost(){
+        for (ChosenPlayer p : chosenPlayerUIs) {
+            styleLost(p);
+        }
+    }
+
+
+    public void styleNormal(){
+        for (ChosenPlayer p : chosenPlayerUIs) {
+            styleNormal(p);
+        }
+    }
+
+    public void styleWon(ChosenPlayer p){
+        Style style = p.getLabel().getElement().getStyle();
+        style.setColor(teamColor);
+        style.setFontWeight(Style.FontWeight.BOLD);
+    }
+
+    public void styleLost(ChosenPlayer p){
+        Style style = p.getLabel().getElement().getStyle();
+        style.setColor("grey");
+        style.setFontWeight(Style.FontWeight.NORMAL);
+    }
+
 }
