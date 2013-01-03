@@ -80,7 +80,7 @@ public class TeamUI extends FlowPanel implements Navigator {
     }
 
     private void handleBlur() {
-        //To change body of created methods use File | Settings | File Templates.
+        styleSuggestionBox();
     }
 
     private void keyDownInSuggestBox(KeyDownEvent event) {
@@ -125,6 +125,8 @@ public class TeamUI extends FlowPanel implements Navigator {
         }
         else if(isSuggestionStartText(text)){
             getSuggestBox().getValueBox().setText("");
+            getSuggestBox().getValueBox().getElement().getStyle().setFontStyle(Style.FontStyle.ITALIC);
+            getSuggestBox().getValueBox().getElement().getStyle().setColor("rgb(171,171,171)");
             styleEmptySuggestionBox();
         }
         else{

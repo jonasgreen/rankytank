@@ -1,14 +1,13 @@
 package com.rankytank.client.gui;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.jg.core.client.model.Result;
 import com.jg.core.client.model.SetEditorListener;
 import com.jg.core.client.model.SetEditorState;
-import com.jg.core.client.style.Name;
-import com.jg.core.client.style.StyleIt;
 import com.jg.core.client.ui.PopupUI;
 import com.jg.core.client.ui.SetEditorUI;
 
@@ -27,6 +26,7 @@ public class AddResultPopUp extends PopupUI {
     private FlowPanel buttonPanel;
     private Button cancelButton;
     private Button okButton;
+    private AddResultError errorPanel;
 
     public AddResultPopUp(MultiWordSuggestOracle oracle) {
         super();
@@ -44,6 +44,8 @@ public class AddResultPopUp extends PopupUI {
         addStyleName("popup");
     }
 
+
+
     public FlowPanel getButtonPanel() {
         if (buttonPanel == null) {
             buttonPanel = new FlowPanel();
@@ -59,6 +61,11 @@ public class AddResultPopUp extends PopupUI {
         if (cancelButton == null) {
             cancelButton = new Button("Cancel");
             cancelButton.setStyleName("colorbutton4");
+            cancelButton.addClickHandler(new ClickHandler() {
+                public void onClick(ClickEvent event) {
+                     AddResultPopUp.this.hide();
+                }
+            });
         }
         return cancelButton;
     }
@@ -67,8 +74,29 @@ public class AddResultPopUp extends PopupUI {
         if (okButton == null) {
             okButton = new Button("Add result");
             okButton.setStyleName("colorbutton4");
+            okButton.addClickHandler(new ClickHandler() {
+                public void onClick(ClickEvent event) {
+                    addResult();
+                }
+            });
         }
         return okButton;
+    }
+
+
+    private void addResult() {
+        SetEditorState.State state = getSetEditor().getState();
+        if(isPersistableState(state)){
+            persistResult();
+        }
+    }
+
+    private boolean isPersistableState(SetEditorState.State state) {
+        return state == SetEditorState.State.draw || state == SetEditorState.State.homeIsWinning || state == SetEditorState.State.outIsWinning;
+    }
+
+    private void persistResult() {
+
     }
 
     public SetEditorUI getSetEditor() {
@@ -76,10 +104,8 @@ public class AddResultPopUp extends PopupUI {
             setEditor = new SetEditorUI();
             setEditor.getTextBox().setWidth("650px");
             setEditor.getTextBox().getElement().getStyle().setMargin(10, Style.Unit.PX);
-            setEditor.getTextBox().getElement().getStyle().setColor("rgb(201,201,201)");
             setEditor.addListener(new SetEditorListener() {
                 public void onChange(SetEditorEvent event) {
-                    System.out.println("onChange state: "+event.getNewState());
                     handleState(event.getNewState());
                 }
             });
