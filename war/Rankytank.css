@@ -6,7 +6,10 @@
   font-family: "klavika";
   src: url("Klavika-Regular.otf"); }
 
-
+body {
+    font-family: klavika, Verdana, Arial, sans-serif !important;
+    color: rgb(51,51,51) !important;
+}
 
 .gwt-PopupPanelGlass{
     opacity:0.5 !important;
@@ -112,6 +115,22 @@
     color: white;
 }
 
+.ranking_title{
+    font-family: klavika;
+    font-size: 44px;
+    padding:10px;
+    white-space:nowrap;
+    color: rgb(51,51,51);
+    text-align: center;
+}
+
+.last10results{
+    font-family: klavika;
+    font-size: 14px;
+    padding-top: 20px;
+    white-space:nowrap;
+    color: rgb(51,51,51);
+}
 
 
 h1 {
@@ -209,4 +228,41 @@ h1 {
   -webkit-box-shadow: 0 8px 16px -6px black;
   -moz-box-shadow: 0 8px 16px -6px black;
   box-shadow: 0 8px 16px -6px black; }
+
+
+.rank_row{
+    height: 24px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    width:600px;
+    font-size: 18px;
+}
+
+.rank_row_number{
+    width: 30px;
+    float:left;
+}
+
+.rank_row_number_label{
+    text-align: right;
+}
+
+.rank_row_name{
+    width:450px;
+    float:left;
+}
+
+.rank_row_name_label{
+    padding-left:40px;
+}
+
+.rank_row_pts{
+    width:110px;
+    float:left;
+}
+
+.rank_row_pts_label{
+      text-align: right;
+      padding-right: 10px;
+};
 

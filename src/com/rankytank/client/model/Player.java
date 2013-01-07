@@ -6,12 +6,12 @@ package com.rankytank.client.model;
 public class Player {
 
     private String name;
-    private Double rank;
+    private Integer rank;
 
     public Player() {
     }
 
-    public Player(String name, Double rank) {
+    public Player(String name, Integer rank) {
         this.name = name;
         this.rank = rank;
     }
@@ -24,11 +24,11 @@ public class Player {
         this.name = name;
     }
 
-    public Double getRank() {
+    public Integer getRank() {
         return rank;
     }
 
-    public void setRank(Double rank) {
+    public void setRank(Integer rank) {
         this.rank = rank;
     }
 
