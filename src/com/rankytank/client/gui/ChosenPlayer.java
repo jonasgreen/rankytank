@@ -21,17 +21,7 @@ public class ChosenPlayer extends FlowPanel{
 
         add(getDeletePanel());
         setStyleName("chosenPlayer");
-        addDomHandler(new MouseOverHandler() {
-            public void onMouseOver(MouseOverEvent event) {
-                handleMouseOver();
-            }
-        }, MouseOverEvent.getType());
 
-        addDomHandler(new MouseOutHandler() {
-            public void onMouseOut(MouseOutEvent event) {
-                handleMouseOut();
-            }
-        }, MouseOutEvent.getType());
 
         getElement().getStyle().setClear(Style.Clear.BOTH);
 
@@ -47,13 +37,6 @@ public class ChosenPlayer extends FlowPanel{
         return label;
     }
 
-    private void handleMouseOut() {
-        getElement().getStyle().setBackgroundColor("transparent");
-    }
-
-    private void handleMouseOver() {
-        getElement().getStyle().setBackgroundColor("rgb(241,241,241)");
-    }
 
     public FlowPanel getDeletePanel() {
         if (deletePanel == null) {
@@ -73,6 +56,7 @@ public class ChosenPlayer extends FlowPanel{
 
             l.addMouseOverHandler(new MouseOverHandler() {
                 public void onMouseOver(MouseOverEvent event) {
+                    getElement().getStyle().setBackgroundColor("rgb(241,241,241)");
                     l.getElement().getStyle().setCursor(Style.Cursor.POINTER);
                     l.getElement().getStyle().setColor("rgb(51,51,51)");
                 }
@@ -80,6 +64,7 @@ public class ChosenPlayer extends FlowPanel{
 
             l.addMouseOutHandler(new MouseOutHandler() {
                 public void onMouseOut(MouseOutEvent event) {
+                    getElement().getStyle().setBackgroundColor("white");
                     l.getElement().getStyle().setColor("rgb(171,171,171)");
                 }
             });

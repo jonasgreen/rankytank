@@ -28,11 +28,9 @@ body {
  font-family: klavika;
  width:310px;
  height: 26px;
- padding-top:2px;
 }
 
 .chosenPlayerLabel{
- padding-left:10px;
      color:green;
     font-size: 18px;
         padding-top:2px;
@@ -192,9 +190,6 @@ h1 {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  background: -moz-linear-gradient(center top, #E7E7E7, #DBDBDB) repeat scroll 0 0 transparent;
-  background: -webkit-gradient(linear, left top, left bottom, from(#E7E7E7), to(#DBDBDB));
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#E7E7E7', endColorstr = '#DBDBDB');
   color: #333333;
   display: inline-block;
   font-size: 14px;
@@ -203,6 +198,7 @@ h1 {
   padding-right: 16px;
   padding-bottom: 6px;
   font-family: klavika;
+  background-color:white;
   border: 1px solid #C2C2C2; }
 
 .colorbutton4:hover, .colorbutton4:visited {
@@ -215,7 +211,7 @@ h1 {
 
 
 .popup{
-  border: 1px solid rgb(121,121,121);
+  background-color:white;
 
 }
 
@@ -264,5 +260,51 @@ h1 {
 .rank_row_pts_label{
       text-align: right;
       padding-right: 10px;
-};
+}
+
+.textBoxUi{
+    height:20px;
+}
+
+.textBoxUi_textBox{
+    border:none;
+    outline:none;
+    background-color:transparent;
+    z-index: 30;
+    position: absolute;
+    font-size:16px;
+    color: rgb(51,51,51);
+}
+
+.textBoxUi_label{
+    padding-top:6px;
+    font-size:14px;
+    color: rgb(141,141,141);
+    position: absolute;
+}
+
+.sugBoxUi{
+    height:20px;
+}
+
+.sugBoxUi_textBox{
+    width:290px;
+    border:none;
+    outline:none;
+    background-color:transparent;
+    font-size:16px;
+    color: rgb(51,51,51);
+    z-index: 30;
+    position: absolute;
+}
+
+
+.sugBoxUi_label{
+    padding-top:6px;
+    width:290px;
+    font-size:14px;
+    color: rgb(141,141,141);
+    position: absolute;
+}
+
 

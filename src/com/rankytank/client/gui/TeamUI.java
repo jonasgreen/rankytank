@@ -8,6 +8,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle;
+import com.jg.core.client.ui.SuggestionBoxUi;
+import com.jg.core.client.ui.TextBoxUi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +29,34 @@ public class TeamUI extends FlowPanel implements Navigator {
 
     private String teamColor;
     private boolean homeTeam;
+    private SuggestionBoxUi suggester;
 
     public TeamUI(AddResultPopUp parent, MultiWordSuggestOracle or, String[] defaultTexts, boolean homeTeam) {
+        this.setWidth("310px");
         this.teamColor = homeTeam ? Colors.GREEN : Colors.BLUE;
         this.homeTeam = homeTeam;
         this.parent = parent;
         this.oracle = or;
         this.suggestionStartTexts = defaultTexts;
         setStyleName("teamUI");
-        add(getSuggestBox());
-        getSuggestBox().getElement().getStyle().setMarginBottom(10, Style.Unit.PX);
         add(chosenPlayersPanel);
+
+        add(getSuggester());
+        //getSuggestBox().getElement().getStyle().setMarginBottom(10, Style.Unit.PX);
         chosenPlayersPanel.setStyleName("chosenPlayerPanel");
+    }
+
+    public SuggestionBoxUi getSuggester() {
+        if (suggester == null) {
+            suggester = new SuggestionBoxUi(getSuggestBox(), suggestionStartTexts[0]);
+
+        }
+        return suggester;
     }
 
     public PlayerSuggetsBox getSuggestBox() {
         if (suggestBox == null) {
             suggestBox = new PlayerSuggetsBox(oracle, suggestionStartTexts, homeTeam);
-            suggestBox.getValueBox().setText(suggestionStartTexts[0]);
             suggestBox.addKeyDownHandler(new KeyDownHandler() {
                 public void onKeyDown(KeyDownEvent event) {
                     keyDownInSuggestBox(event);
@@ -84,10 +96,6 @@ public class TeamUI extends FlowPanel implements Navigator {
     }
 
     private void keyDownInSuggestBox(KeyDownEvent event) {
-        if (isSuggestionStartText(getSuggestBox().getText())) {
-            getSuggestBox().setText("");
-        }
-
         int keycode = event.getNativeEvent().getKeyCode();
         if (getSuggestBox().isSuggestionListShowing()) {
             if (keycode == KeyCodes.KEY_ESCAPE) {//ESC
@@ -120,41 +128,20 @@ public class TeamUI extends FlowPanel implements Navigator {
         if(text == null || text.equals("")){
             styleEmptySuggestionBox();
             getSuggestBox().hideSuggestionList();
-            getSuggestBox().getValueBox().getElement().getStyle().setFontStyle(Style.FontStyle.ITALIC);
-            getSuggestBox().getValueBox().getElement().getStyle().setColor("rgb(171,171,171)");
-        }
-        else if(isSuggestionStartText(text)){
-            getSuggestBox().getValueBox().setText("");
-            getSuggestBox().getValueBox().getElement().getStyle().setFontStyle(Style.FontStyle.ITALIC);
-            getSuggestBox().getValueBox().getElement().getStyle().setColor("rgb(171,171,171)");
-            styleEmptySuggestionBox();
-        }
-        else{
-            getSuggestBox().getValueBox().getElement().getStyle().setFontStyle(Style.FontStyle.NORMAL);
-            getSuggestBox().getValueBox().getElement().getStyle().setColor("rgb(51,51,51)");
         }
     }
 
-    private boolean isSuggestionStartText(String text) {
-        for (String s : suggestionStartTexts) {
-            if(s.equals(text)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     private void styleEmptySuggestionBox() {
         if(chosenPlayerUIs.isEmpty()){
-            getSuggestBox().getValueBox().setText(suggestionStartTexts[0]);
+            getSuggester().setEmptyText(suggestionStartTexts[0]);
         }
         else if(chosenPlayerUIs.size() == 1){
-            getSuggestBox().getValueBox().setText(suggestionStartTexts[1]);
+            getSuggester().setEmptyText(suggestionStartTexts[1]);
         }
         else{
-            getSuggestBox().getValueBox().setText(suggestionStartTexts[2]);
+            getSuggester().setEmptyText(suggestionStartTexts[2]);
         }
-        getSuggestBox().getValueBox().setCursorPos(0);
     }
 
 
@@ -203,7 +190,7 @@ public class TeamUI extends FlowPanel implements Navigator {
     public void styleNormal(ChosenPlayer p){
         Style style = p.getLabel().getElement().getStyle();
         style.setColor(getTeamColor());
-        chosenPlayersPanel.getElement().getStyle().setBackgroundColor("rgb(231,231,231)");
+        chosenPlayersPanel.getElement().getStyle().setBackgroundColor("white");
     }
 
     public void styleWon(ChosenPlayer p){
@@ -216,7 +203,7 @@ public class TeamUI extends FlowPanel implements Navigator {
     public void styleLost(ChosenPlayer p){
         Style style = p.getLabel().getElement().getStyle();
         style.setColor("grey");
-        chosenPlayersPanel.getElement().getStyle().setBackgroundColor("rgb(231,231,231)");
+        chosenPlayersPanel.getElement().getStyle().setBackgroundColor("white");
     }
 
 }

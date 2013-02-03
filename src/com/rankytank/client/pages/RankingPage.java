@@ -1,12 +1,12 @@
 package com.rankytank.client.pages;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.*;
+import com.rankytank.client.gui.AddResultPopUp;
 import com.rankytank.client.gui.RankingUI;
+import com.jg.core.client.ui.TextBoxUi;
 import com.rankytank.client.model.TestData;
 
 /**
@@ -77,7 +77,7 @@ public class RankingPage extends FlowPanel {
             right.getElement().getStyle().setMarginTop(50, Style.Unit.PX);
 
             right.add(getAddResultButton());
-
+            right.add(new TextBoxUi());
 
         }
         return right;
@@ -85,8 +85,24 @@ public class RankingPage extends FlowPanel {
 
     public Button getAddResultButton() {
         if (addResultButton == null) {
-            addResultButton = new Button("Add result");
+            addResultButton = new Button("Add match");
             addResultButton.setStyleName("colorbutton3");
+            addResultButton.addClickHandler(new ClickHandler() {
+                public void onClick(ClickEvent event) {
+
+                    final MultiWordSuggestOracle or = new MultiWordSuggestOracle();
+                    or.add("Jonas Green");
+                    or.add("Anders Matthesen");
+                    or.add("Jonas Andersen");
+                    or.add("Jonas Frank");
+                    or.add("Jonas John");
+                    or.add("Jon Green");
+
+
+                    AddResultPopUp popUp = new AddResultPopUp(or);
+                    popUp.show();
+                }
+            });
         }
         return addResultButton;
     }
