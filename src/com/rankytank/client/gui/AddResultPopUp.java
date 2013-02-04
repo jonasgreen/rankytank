@@ -51,6 +51,8 @@ public class AddResultPopUp extends PopupUI {
         content.add(getTeamHome());
         content.add(getTeamOut());
 
+
+
         content.add(getSetEditor());
         content.add(getButtonPanel());
         setStyleName("lineShadow");
@@ -116,8 +118,8 @@ public class AddResultPopUp extends PopupUI {
         if (setEditor == null) {
             setEditor = new SetEditorUI();
             setEditor.getTextBox().setWidth("650px");
-            setEditor.getElement().getStyle().setPadding(5, Style.Unit.PX);
-            setEditor.getElement().getStyle().setPaddingBottom(15, Style.Unit.PX);
+            setEditor.getElement().getStyle().setPadding(10, Style.Unit.PX);
+            setEditor.getElement().getStyle().setMarginTop(20, Style.Unit.PX);
 
             setEditor.addListener(new SetEditorListener() {
                 public void onChange(SetEditorEvent event) {

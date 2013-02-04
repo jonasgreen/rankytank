@@ -49,6 +49,7 @@ public class TeamUI extends FlowPanel implements Navigator {
     public SuggestionBoxUi getSuggester() {
         if (suggester == null) {
             suggester = new SuggestionBoxUi(getSuggestBox(), suggestionStartTexts[0]);
+            suggester.getElement().getStyle().setPaddingBottom(20, Style.Unit.PX);
 
         }
         return suggester;
