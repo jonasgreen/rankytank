@@ -12,6 +12,11 @@
     </servlet-mapping>
 
 
+ <!-- Default page to serve -->
+    <welcome-file-list>
+        <welcome-file>Rankytank.html</welcome-file>
+    </welcome-file-list>
+
   <servlet>
     <servlet-name>SystemServiceServlet</servlet-name>
     <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>

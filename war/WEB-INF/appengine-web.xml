@@ -6,8 +6,9 @@
   <!--
     Allows App Engine to send multiple requests to one instance in parallel:
   -->
-  <threadsafe>true</threadsafe>
-
+  <threadsafe>false</threadsafe>
+  
+<warmup-requests-enabled>true</warmup-requests-enabled>
   <!-- Configure serving/caching of GWT files -->
   <static-files>
     <include path="**" />
