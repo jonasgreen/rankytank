@@ -57,7 +57,7 @@ public class PlayerGenerator {
             int next = random.nextInt(players.size());
             if(!usedPlayerIds.contains(next)){
                 usedPlayerIds.add(next);
-                playerIds[i] = next;
+                playerIds[i++] = next;
             }
         }
         return playerIds;
